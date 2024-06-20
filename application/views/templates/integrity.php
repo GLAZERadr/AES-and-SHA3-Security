@@ -28,12 +28,12 @@
             <div class="col-lg-7 mx-auto justify-content-center" data-aos="zoom-in">
                 <div class="login-container">
                     <h3 class="h1 mb-4 text-gray-800 text-center">Pengujian Integrity</h3><br>
-                    <form class="login-form" action="<?php echo base_url('Pengujian/integrity'); ?>" method="POST">
+                    <form class="login-form" action="<?php echo base_url('Pengujian/integrity/'); ?>" method="POST">
                         <div class="form-group">
-                            <input type="text" name="lat" id="lat" class="form-control form-control-user" required placeholder="Masukkan Latitude Terenkripsi .." value="<?= set_value('lat'); ?>"></input>
+                            <input type="text" name="lat" id="lat" class="form-control form-control-user" required placeholder="Masukkan Latitude Terenkripsi .." value="<?= set_value('lat'); ?>" readonly>
                         </div>
                         <div class="form-group">
-                            <input type="text" name="long" id="long" class="form-control form-control-user" required placeholder="Masukkan Longitude Terenkripsi.." value="<?= set_value('long'); ?>"></input>
+                            <input type="text" name="long" id="long" class="form-control form-control-user" required placeholder="Masukkan Longitude Terenkripsi.." value="<?= set_value('long'); ?>" readonly>
                         </div>
                         <button type="submit">Hitung Nilai Hash</button><br><br>
                     </form>

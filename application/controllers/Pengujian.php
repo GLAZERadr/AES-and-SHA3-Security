@@ -14,7 +14,7 @@ class Pengujian extends CI_Controller
 
     public function integrity()
     {
-        //$data['data_lokasi'] = $this->M_dataloc->SemuaData();
+        // $data['data'] = $data_lokasi;
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
         $this->load->view('templates/integrity');

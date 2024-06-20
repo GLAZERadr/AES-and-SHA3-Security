@@ -22,8 +22,8 @@
             <br>
             <div class="col-lg-7 mx-auto justify-content-center" data-aos="zoom-in">
                 <div class="login-container">
-                    <h3 class="h1 mb-4 text-gray-800 text-center">Enkripsi Data Lokasi</h3><br>
-                    <form class="login-form" action="<?php echo base_url('Dataloc/enkripsi/' . $data->id);?>" method="POST">
+                    <h3 class="h1 mb-4 text-gray-800 text-center">Dekripsi Data Lokasi</h3><br>
+                    <form class="login-form" action="<?php echo base_url('Dataloc/decrypt/' . $data->id);?>" method="POST">
                         <div class="form-group">
                             <input type="text" name="lat" id="lat" class="form-control form-control-user" required placeholder="Latitude terisi otomatis sesuai yg di klik" value="<?= isset($data->lat) ? $data->lat : ''; ?>" readonly>
                         </div>
@@ -31,10 +31,10 @@
                             <input type="text" name="long" id="long" class="form-control form-control-user" required placeholder="Longitude terisi otomatis sesuai yang diklik" value="<?= isset($data->long) ? $data->long : ''; ?>" readonly>
                         </div>
                         <div class="form-group">
-                            <input type="password" name="key" id="key" class="form-control form-control-user" required placeholder="Masukkan Secret Key" value="<?= set_value('key'); ?>">
+                            <input type="password" name="key" id="key" class="form-control form-control-user" required placeholder="Masukkan Secret Key" value="<?= isset($data->secret_key) ? $data->secret_key : ''; ?>" readonly>
                         </div>
-                        <button onclick="window.location.href='<?php echo site_url('Dataloc/hash/' . $data->id); ?>'">
-                            <i class="bx bx-plus"></i> Enkripsi
+                        <button onclick="window.location.href='<?php echo site_url('Pengamanan/hasil/'); ?>'">
+                            <i class="bx bx-plus"></i> Dekripsi
                         </button>
                     </form>
                 </div>
