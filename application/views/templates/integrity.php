@@ -23,44 +23,46 @@
         <!-- End of Topbar -->
 
         <div class="container-fluid">
-
-
             <div class="col-lg-7 mx-auto justify-content-center" data-aos="zoom-in">
                 <div class="login-container">
                     <h3 class="h1 mb-4 text-gray-800 text-center">Pengujian Integrity</h3><br>
-                    <form class="login-form" action="<?php echo base_url('Pengujian/integrity/'); ?>" method="POST">
+                    <form class="login-form">
                         <div class="form-group">
-                            <input type="text" name="lat" id="lat" class="form-control form-control-user" required placeholder="Masukkan Latitude Terenkripsi .." value="<?= set_value('lat'); ?>" readonly>
+                            <input type="text" name="lat-en" id="lat-en" class="form-control form-control-user" required placeholder="Masukkan Latitude Terenkripsi .." value="<?= isset($data->lat_en) ? $data->lat_en : ''; ?>"></input>
                         </div>
                         <div class="form-group">
-                            <input type="text" name="long" id="long" class="form-control form-control-user" required placeholder="Masukkan Longitude Terenkripsi.." value="<?= set_value('long'); ?>" readonly>
+                            <input type="text" name="long-en" id="long-en" class="form-control form-control-user" required placeholder="Masukkan Longitude Terenkripsi.." value="<?= isset($data->long_en) ? $data->long_en : ''; ?>"></input>
                         </div>
-                        <button type="submit">Hitung Nilai Hash</button><br><br>
+                        <div class="col-md-12 text-center">
+                            <button type="button" class="btn btn-primary w-100" id="hitung-hash-user">Hitung Nilai Hash</button><br><br>
+                        </div>
                     </form>
-                    <form class="login-form" action="<?php echo base_url('Pengujian/avaeff'); ?>" method="POST">
+                    <form class="login-form" action="<?php echo base_url('Pengujian/integrity/' . $data->id); ?>" method="POST">
                         <div class="form-group">
-                            <input type="text" name="lat" id="lat" class="form-control form-control-user" required placeholder="Nilai Hashing Latitude" value="<?= set_value('lat'); ?>"></input>
+                            <input type="text" name="lat-hs-1" id="lat-hs-1" class="form-control form-control-user" required placeholder="Nilai Hashing Latitude" value="<?= isset($data->lat_hs) ? $data->lat_hs : ''; ?>" readonly>
                         </div>
                         <div class="form-group">
-                            <input type="text" name="long" id="long" class="form-control form-control-user" required placeholder="Nilai Hashing Longitude" value="<?= set_value('long'); ?>"></input>
+                            <input type="text" name="long-hs-1" id="long-hs-1" class="form-control form-control-user" required placeholder="Nilai Hashing Longitude" value="<?= isset($data->long_hs) ? $data->long_hs : ''; ?>" readonly>
                         </div>
                         <div class="form-group">
-                            <input type="text" name="lat" id="lat" class="form-control form-control-user" required placeholder="Nilai Hashing Latitude 2" value="<?= set_value('lat'); ?>"></input>
+                            <input type="text" name="lat-hs-2" id="lat-hs-2" class="form-control form-control-user" required placeholder="Nilai Hashing Latitude 2" readonly>
                         </div>
                         <div class="form-group">
-                            <input type="text" name="long" id="long" class="form-control form-control-user" required placeholder="Nilai Hashing Longitude 2" value="<?= set_value('long'); ?>"></input>
+                            <input type="text" name="long-hs-2" id="long-hs-2" class="form-control form-control-user" required placeholder="Nilai Hashing Longitude 2" readonly>
                         </div>
-                        <button type="submit">Bandingkan Nilai Hash</button><br><br><br><br>
+                        <div class="col-md-12 text-center">
+                            <button type="submit" class="btn btn-primary w-100" id="bandigngkan-dua-hash">Bandingkan Nilai Hash</button><br><br><br><br>
+                        </div>
                     </form>
                 </div>
             </div>
-
-
             <h3 class="h1 mb-4 text-gray-800 text-center">Hasil Pengujian Integrity</h3><br>
             <table class="table table-border">
                 <thead>
                     <tr>
-                        <td>Pesan</td>
+                        <td>No.</td>
+                        <td>Latitude</td>
+                        <td>Longitude</td>
                         <td>Digest Latitude 1</td>
                         <td>Digest Longitude 1</td>
                         <td>Digest Latitude 2</td>
@@ -68,22 +70,22 @@
                         <td>Hasil Perbandingan</td>
                     </tr>
                 </thead>
-                <!-- <tbody>
+                <tbody>
                     <?php foreach ($data_lokasi as $hasil) : ?>
                         <tr>
-                            <td><?php echo $hasil['id']; ?></td>
+                            <td><?php echo $hasil['id_integrity']; ?></td>
                             <td><?php echo $hasil['lat']; ?></td>
-                            <td><?php echo $hasil['long']; ?></td>
-                            <td><?php echo $hasil['lat_en']; ?></td>
-                            <td><?php echo $hasil['long_en']; ?></td>
-                            <td><?php echo $hasil['lat_hs']; ?></td>
-                            <td><?php echo $hasil['long_hs']; ?></td>
-                            <td><?php echo $hasil['tgl']; ?></td>
+                            <td><?php echo $hasil['lang']; ?></td>
+                            <td><?php echo $hasil['digest_lat_1']; ?></td>
+                            <td><?php echo $hasil['digest_lang_1']; ?></td>
+                            <td><?php echo $hasil['digest_lat_2']; ?></td>
+                            <td><?php echo $hasil['digest_lang_2']; ?></td>
+                            <td><?php echo $hasil['hasil_perbandingan']; ?></td>
                         </tr>
-
-                    <?php endforeach; ?> -->
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
 
     </div>
+</div>

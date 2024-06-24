@@ -50,29 +50,32 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    function setupHashingButton(buttonId, latInputId, longInputId, digestLatId, digestLongId, url) {
+    function setupHashingButton(buttonId, latInputId, longInputId, digestLatId, digestLongId, url, isDb) {
         var button = document.getElementById(buttonId);
-        button.addEventListener('click', function () {
+        button.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent form submission
             var lat_en = document.getElementById(latInputId).value;
             var long_en = document.getElementById(longInputId).value;
-            
+
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
-                    console.log('Response:', xhr.responseText);
                     if (xhr.status === 200) {
                         var response = JSON.parse(xhr.responseText);
-                        if (response.hash_lat_en) {
-                            document.getElementById(digestLatId).value = response.hash_lat_en;
-                        }
-                        if (response.hash_long_en) {
-                            document.getElementById(digestLongId).value = response.hash_long_en;
-                        }
-                        if (response.hash_lat_en_db) {
-                            document.getElementById(digestLatId).value = response.hash_lat_en_db;
-                        }
-                        if (response.hash_long_en_db) {
-                            document.getElementById(digestLongId).value = response.hash_long_en_db;
+                        if (isDb) {
+                            if (response.hash_lat_en_db) {
+                                document.getElementById(digestLatId).value = response.hash_lat_en_db;
+                            }
+                            if (response.hash_long_en_db) {
+                                document.getElementById(digestLongId).value = response.hash_long_en_db;
+                            }
+                        } else {
+                            if (response.hash_lat_en) {
+                                document.getElementById(digestLatId).value = response.hash_lat_en;
+                            }
+                            if (response.hash_long_en) {
+                                document.getElementById(digestLongId).value = response.hash_long_en;
+                            }
                         }
                     } else {
                         console.error('Error in the request:', xhr.statusText);
@@ -82,8 +85,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
             xhr.open('POST', url, true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            console.log('Sending AJAX request to:', url);
-            xhr.send('lat_en=' + encodeURIComponent(lat_en) + '&long_en=' + encodeURIComponent(long_en));
+
+            if (isDb) {
+                xhr.send('lat_en_db=' + encodeURIComponent(lat_en) + '&long_en_db=' + encodeURIComponent(long_en));
+            } else {
+                xhr.send('lat_en=' + encodeURIComponent(lat_en) + '&long_en=' + encodeURIComponent(long_en));
+            }
         });
     }
 
@@ -93,16 +100,121 @@ document.addEventListener('DOMContentLoaded', function () {
         'long_en', 
         'digest_text_lat_1', 
         'digest_text_long_1', 
-        '<?php echo base_url("Dataloc/generate_hash"); ?>'
+        '<?php echo base_url("Dataloc/generate_hash"); ?>', 
+        false // Not for DB
     );
+
     setupHashingButton(
         'hasil-enkripsi-db', 
         'lat_en_db', 
         'long_en_db', 
         'digest_text_lat_2', 
         'digest_text_long_2', 
-        '<?php echo base_url("Dataloc/generate_hash_db"); ?>'
+        '<?php echo base_url("Dataloc/generate_hash_db"); ?>', 
+        true // For DB
     );
+
+    function compareHashes(event) {
+        event.preventDefault();
+        var digestLat1 = document.getElementById('digest_text_lat_1').value;
+        var digestLong1 = document.getElementById('digest_text_long_1').value;
+        var digestLat2 = document.getElementById('digest_text_lat_2').value;
+        var digestLong2 = document.getElementById('digest_text_long_2').value;
+
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    var resultText = response.result === 'Matched' ? 'Digest Text 1 dan Digest Text 2: Sama' : 'Digest Text 1 dan Digest Text 2: Tidak Sama';
+                    document.getElementById('hasil-banding-hash').innerText = resultText;
+
+                    var lanjutkanButton = document.getElementById('lanjutkan-dekrip');
+                    if (response.result === 'Matched') {
+                        lanjutkanButton.removeAttribute('disabled');
+                    } else {
+                        lanjutkanButton.setAttribute('disabled', 'disabled');
+                    }
+                } else {
+                    console.error('Error in the request:', xhr.statusText);
+                }
+            }
+        };
+
+        xhr.open('POST', '<?php echo base_url("Dataloc/compare_hash_digest"); ?>', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.send('digest_text_lat_1=' + encodeURIComponent(digestLat1) + '&digest_text_long_1=' + encodeURIComponent(digestLong1) + '&digest_text_lat_2=' + encodeURIComponent(digestLat2) + '&digest_text_long_2=' + encodeURIComponent(digestLong2));
+    }
+
+    document.getElementById('bandingkan-hashing').addEventListener('click', compareHashes);
+
+    function setupDekripsiButton(buttonId, latEncrypted, longEncrypted, secretKey, url) {
+        var button = document.getElementById(buttonId);
+        button.addEventListener('click', function (event) {
+            
+            var encryptedLat = document.getElementById(latEncrypted).value;
+            var encryptedLong = document.getElementById(longEncrypted).value;
+            var secretKey = document.getElementById(secretKey).value;
+
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        console.log('Response:', response);
+                        var decryptedLat = `Latitude: ${response.lat}`;
+                        var decryptedLong = `Longitude: ${response.long}`;
+
+                        document.getElementById('latitude').innerText = decryptedLat;
+                        document.getElementById('longitude').innerText = decryptedLong;
+                    } else {
+                        console.error('Error in the request:', xhr.statusText);
+                    }
+                }
+            };
+
+            xhr.open('POST', url, true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send('lat_en_dec=' + encodeURIComponent(encryptedLat) + '&long_en_dec=' + encodeURIComponent(encryptedLong) + '&key_dec=' + encodeURIComponent(secretKey));
+        });
+    }
+
+    setupDekripsiButton(
+        'dekripsi-data', 
+        'lat_en_dec', 
+        'long_en_dec', 
+        'key_dec', 
+        '<?php echo base_url("Dataloc/generate_dekripsi"); ?>'
+    );
+
+    function countHashValue(event) {
+        event.preventDefault();
+        var latEncrypted = document.getElementById('lat-en').value;
+        var longEncrypted = document.getElementById('long-en').value;
+
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.hash_lat_integrity) {
+                        document.getElementById('lat-hs-2').value = response.hash_lat_integrity;
+                    }
+                    if (response.hash_long_integrity) {
+                        document.getElementById('long-hs-2').value = response.hash_long_integrity;
+                    }
+                } else {
+                    console.error('Error in the request:', xhr.statusText);
+                }
+            }
+        };
+
+        xhr.open('POST', '<?= base_url("Pengujian/generate_hash_integrity"); ?>', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.send('lat-en=' + encodeURIComponent(latEncrypted) + '&long-en=' + encodeURIComponent(longEncrypted));
+    }
+
+    document.getElementById('hitung-hash-user').addEventListener('click', countHashValue);
 });
 </script>
 

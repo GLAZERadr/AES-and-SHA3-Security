@@ -33,7 +33,7 @@
                         <div class="form-group">
                             <input type="password" name="key" id="key" class="form-control form-control-user" required placeholder="Masukkan Secret Key" value="<?= set_value('key'); ?>">
                         </div>
-                        <button onclick="window.location.href='<?php echo site_url('Dataloc/hash/' . $data->id); ?>'">
+                        <button class="btn btn-primary w-100" onclick="window.location.href='<?php echo site_url('Dataloc/hash/' . $data->id); ?>'">
                             <i class="bx bx-plus"></i> Enkripsi
                         </button>
                     </form>

@@ -5,10 +5,10 @@ class Pengamanan extends CI_Controller
 {
     public function hasil()
     {
-        //$data['data_lokasi'] = $this->M_dataloc->SemuaData();
+        $data['data_lokasi'] = $this->M_dataloc->SemuaData();
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
-        $this->load->view('templates/hasil');
+        $this->load->view('templates/hasil', $data);
         $this->load->view('templates/footer');
     }
 }

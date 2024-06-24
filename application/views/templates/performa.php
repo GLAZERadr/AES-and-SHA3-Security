@@ -28,17 +28,19 @@
             <div class="col-lg-7 mx-auto justify-content-center" data-aos="zoom-in">
                 <div class="login-container">
                     <h3 class="h1 mb-4 text-gray-800 text-center">Pengujian Performa Sistem</h3><br>
-                    <form class="login-form" action="<?php echo base_url('Pengujian/avaeff'); ?>" method="POST">
+                    <form class="login-form" action="<?php echo base_url('Pengujian/performa'); ?>" method="POST">
                         <div class="form-group">
-                            <input type="text" name="lat" id="lat" class="form-control form-control-user" required placeholder="Masukkan Banyak Data Dalam Database.." value="<?= set_value('lat'); ?>"></input>
+                            <input type="text" name="banyak-data" id="banyak-data" class="form-control form-control-user" required placeholder="Masukkan Banyak Data Dalam Database.." value="<?= set_value('banyak-data'); ?>"></input>
                         </div>
                         <div class="form-group">
-                            <input type="text" name="lat" id="lat" class="form-control form-control-user" required placeholder="Masukkan Waktu Sistem tanpa Algoritma (s).." value="<?= set_value('lat'); ?>"></input>
+                            <input type="text" name="waktu-no-algo" id="waktu-no-algo" class="form-control form-control-user" required placeholder="Masukkan Waktu Sistem tanpa Algoritma (s).." value="<?= set_value('waktu-no-algo'); ?>"></input>
                         </div>
                         <div class="form-group">
-                            <input type="text" name="long" id="long" class="form-control form-control-user" required placeholder="Masukkan Waktu Sistem dengan Algoritma (s).." value="<?= set_value('long'); ?>"></input>
+                            <input type="text" name="waktu-with-algo" id="waktu-with-algo" class="form-control form-control-user" required placeholder="Masukkan Waktu Sistem dengan Algoritma (s).." value="<?= set_value('waktu-with-algo'); ?>"></input>
                         </div>
-                        <button type="submit">Hitung</button><br><br><br><br>
+                        <div class="col-md-12 text-center">
+                            <button type="submit"  class="btn btn-primary w-100" id="hitung-performa">Hitung</button><br><br><br><br>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -47,6 +49,7 @@
             <table class="table table-border">
                 <thead>
                     <tr>
+                        <td>No.</td>
                         <td>Banyak Data</td>
                         <td>Tanpa Algoritma (s)</td>
                         <td>Dengan Algoritma (s)</td>
@@ -54,20 +57,16 @@
                     </tr>
                     </tr>
                 </thead>
-                <!-- <tbody>
+                <tbody>
                     <?php foreach ($data_lokasi as $hasil) : ?>
                         <tr>
-                            <td><?php echo $hasil['id']; ?></td>
-                            <td><?php echo $hasil['lat']; ?></td>
-                            <td><?php echo $hasil['long']; ?></td>
-                            <td><?php echo $hasil['lat_en']; ?></td>
-                            <td><?php echo $hasil['long_en']; ?></td>
-                            <td><?php echo $hasil['lat_hs']; ?></td>
-                            <td><?php echo $hasil['long_hs']; ?></td>
-                            <td><?php echo $hasil['tgl']; ?></td>
+                            <td><?php echo $hasil['id_performa']; ?>.</td>
+                            <td><?php echo $hasil['banyak_data']; ?></td>
+                            <td><?php echo $hasil['waktu_tanpa_algo']; ?> s</td>
+                            <td><?php echo $hasil['waktu_dengan_algo']; ?> s</td>
+                            <td><?php echo $hasil['peningkatan']; ?> s</td>
                         </tr>
-
-                    <?php endforeach; ?> -->
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>

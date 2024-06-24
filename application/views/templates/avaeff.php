@@ -30,21 +30,17 @@
                     <h3 class="h1 mb-4 text-gray-800 text-center">Pengujian Avalanche Effect</h3><br>
                     <form class="login-form" action="<?php echo base_url('Pengujian/avaeff'); ?>" method="POST">
                         <div class="form-group">
-                            <input type="text" name="lat" id="lat" class="form-control form-control-user" required placeholder="Masukkan Latitude Terenkripsi Sebelum Data Diubah.." value="<?= set_value('lat'); ?>"></input>
+                            <input type="text" name="koordinat" id="koordinat" class="form-control form-control-user" required placeholder="Masukkan Koordinat (lat/long) Sebelum Diubah.." value="<?= set_value('koordinat'); ?>"></input>
                         </div>
                         <div class="form-group">
-                            <input type="text" name="long" id="long" class="form-control form-control-user" required placeholder="Masukkan Longitude Terenkripsi Sebelum Data Diubah.." value="<?= set_value('long'); ?>"></input>
-                        </div>
-                        <button type="submit">Hitung</button><br><br>
-                    </form>
-                    <form class="login-form" action="<?php echo base_url('Pengujian/avaeff'); ?>" method="POST">
-                        <div class="form-group">
-                            <input type="text" name="lat" id="lat" class="form-control form-control-user" required placeholder="Masukkan Latitude Terenkripsi Setelah Data Diubah.." value="<?= set_value('lat'); ?>"></input>
+                            <input type="text" name="koordinat-modif" id="koordinat-modif" class="form-control form-control-user" required placeholder="Masukkan Koordinat (lat/long) Setelah Diubah.." value="<?= set_value('koordinat-modif'); ?>"></input>
                         </div>
                         <div class="form-group">
-                            <input type="text" name="long" id="long" class="form-control form-control-user" required placeholder="Masukkan Longitude Terenkripsi Setelah Data Diubah.." value="<?= set_value('long'); ?>"></input>
+                            <input type="text" name="key-enkripsi" id="key-enkripsi" class="form-control form-control-user" required placeholder="Masukkan Secret Key.." value="<?= set_value('key-enkripsi'); ?>"></input>
                         </div>
-                        <button type="submit">Hitung</button><br><br><br><br>
+                        <div class="col-md-12 text-center">
+                            <button type="submit" class="btn btn-primary w-100" id="hitung-koordinat">Hitung</button><br><br>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -54,39 +50,40 @@
             <table class="table table-border">
                 <thead>
                     <tr>
-                        <td></td>
-                        <td>Data Terenkripsi Sebelum Data Diubah</td>
-                        <td>Data Terenkripsi Setelah Data Diubah</td>
-                        <td>Rata-rata Perubahan Bit (%)</td>
-                    </tr>
-                    <tr>
-                        <td>Latitude</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>Longitude</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>No.</td>
+                        <td>Input Awal</td>
+                        <td>Ciphertext Awal</td>
+                        <td>Input yang Diubah</td>
+                        <td>Ciphertext yang Diubah</td>
+                        <td>Perbedaan Ciphertext (bit)</td>
+                        <td>Persentase Perbedaan (%)</td>
                     </tr>
                 </thead>
-                <!-- <tbody>
-                    <?php foreach ($data_lokasi as $hasil) : ?>
+                <tbody>
+                    <?php foreach ($data_avaeff as $hasil) : ?>
                         <tr>
-                            <td><?php echo $hasil['id']; ?></td>
-                            <td><?php echo $hasil['lat']; ?></td>
-                            <td><?php echo $hasil['long']; ?></td>
-                            <td><?php echo $hasil['lat_en']; ?></td>
-                            <td><?php echo $hasil['long_en']; ?></td>
-                            <td><?php echo $hasil['lat_hs']; ?></td>
-                            <td><?php echo $hasil['long_hs']; ?></td>
-                            <td><?php echo $hasil['tgl']; ?></td>
+                            <td><?php echo $hasil['id_avalanche']; ?>.</td>
+                            <td><?php echo $hasil['input_koordinat']; ?></td>
+                            <td><?php echo $hasil['ciphertext_input']; ?></td>
+                            <td><?php echo $hasil['input_modifikasi']; ?></td>
+                            <td><?php echo $hasil['ciphertext_input_modif']; ?></td>
+                            <td><?php echo $hasil['perbedaan_cipher']; ?> bit</td>
+                            <td><?php echo $hasil['perbedaan_persentase']; ?>%</td>
                         </tr>
-
-                    <?php endforeach; ?> -->
+                    <?php endforeach; ?>
                 </tbody>
+                <?php $rata_rata = $this->M_dataloc->hitungRataRata(); ?>
+                <thead>
+                    <tr>
+                        <td>Rata-rata</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><?php echo isset($rata_rata['rata_perbedaan_cipher']) ? round($rata_rata['rata_perbedaan_cipher'], 2) : ''; ?> bit</td>
+                        <td><?php echo isset($rata_rata['rata_perbedaan_persentase']) ? round($rata_rata['rata_perbedaan_persentase'], 2) : ''; ?>%</td>
+                    </tr>
+                </thead>
             </table>
         </div>
 

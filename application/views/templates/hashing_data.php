@@ -27,80 +27,77 @@
             <div class="col-lg-12 mx-auto justify-content-center" data-aos="zoom-in">
                 <div class="login-container">
                     <h3 class="h1 mb-4 text-gray-800 text-center">Hashing Data Lokasi</h3><br>
-                    <form class="login-form" action="<?php echo base_url('Dataloc/hash/' . $data->id); ?>" method="POST">
+                    <form class="login-form" action="<?php echo base_url('Dataloc/hash/' . $data->id); ?>" method="POST" id="hashing-form">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <p>Hasil Enkripsi (lat)</p>
-                                    <input type="text" name="lat_en" id="lat_en" class="form-control form-control-user" required placeholder="Masukkan Latitude Enkripsi dari Database.." value="<?= isset($data->lat_en) ? $data->lat_en : ''; ?>"readonly>
+                                    <input type="text" name="lat_en" id="lat_en" class="form-control form-control-user" required placeholder="Masukkan Latitude Enkripsi dari Database.." value="<?= isset($data->lat_en) ? $data->lat_en : ''; ?>" readonly>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <p>Hasil Enkripsi (lat db)</p>
-                                    <input type="text" name="lat_en_db" id="lat_en_db" class="form-control form-control-user" required placeholder="Masukkan Latitude Enkripsi dari Database.." value="<?= set_value('lat_en_db'); ?>"></input>
+                                    <input type="text" name="lat_en_db" id="lat_en_db" class="form-control form-control-user" required placeholder="Masukkan Latitude Enkripsi dari Database.." value="<?= set_value('lat_en_db'); ?>">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <p>Hasil Enkripsi (lang)</p>
-                                    <input type="text" name="long_en" id="long_en" class="form-control form-control-user" required placeholder="Masukkan Longitude Enkripsi dari Database.." value="<?= isset($data->long_en) ? $data->long_en : ''; ?>"readonly>
+                                    <input type="text" name="long_en" id="long_en" class="form-control form-control-user" required placeholder="Masukkan Longitude Enkripsi dari Database.." value="<?= isset($data->long_en) ? $data->long_en : ''; ?>" readonly>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <p>Hasil Enkripsi (lang db)</p>
-                                    <input type="text" name="long_en_db" id="long_en_db" class="form-control form-control-user" required placeholder="Masukkan Longitude Enkripsi dari Database.." value="<?= set_value('long_en_db'); ?>"></input>
+                                    <input type="text" name="long_en_db" id="long_en_db" class="form-control form-control-user" required placeholder="Masukkan Longitude Enkripsi dari Database.." value="<?= set_value('long_en_db'); ?>">
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 text-center">
-                                <button type="submit" class="btn btn-primary w-100" id="hasil-enkripsi">Hashing</button>
+                                <button type="button" class="btn btn-primary w-100" id="hasil-enkripsi">Hashing</button>
                             </div>
                             <div class="col-md-6 text-center">
-                                <button type="submit" class="btn btn-primary w-100" id="hasil-enkripsi-db">Hashing</button>
+                                <button type="button" class="btn btn-primary w-100" id="hasil-enkripsi-db">Hashing DB</button>
                             </div>
                         </div>
-                    </form>
-
-                    <form class="login-form" action="<?php echo base_url('Dataloc/hash/' . $data->id); ?>" method="POST">
+                        <br>
+                        <div class="form-group">
+                            <p>Digest Text (lat) 1</p>
+                            <input type="text" name="digest_text_lat_1" id="digest_text_lat_1" class="form-control form-control-user" required placeholder="Masukkan Digest Text Latitude Enkripsi.." readonly>
+                        </div>
+                        <div class="form-group">
+                            <p>Digest Text (lat) 2</p>
+                            <input type="text" name="digest_text_lat_2" id="digest_text_lat_2" class="form-control form-control-user" required placeholder="Masukkan Digest Text Latitude Enkripsi.." readonly>
+                        </div>
+                        <div class="form-group">
+                            <p>Digest Text (lang) 1</p>
+                            <input type="text" name="digest_text_long_1" id="digest_text_long_1" class="form-control form-control-user" required placeholder="Masukkan Digest Text Longitude Enkripsi.." readonly>
+                        </div>
+                        <div class="form-group">
+                            <p>Digest Text (lang) 2</p>
+                            <input type="text" name="digest_text_long_2" id="digest_text_long_2" class="form-control form-control-user" required placeholder="Masukkan Digest Text Longitude Enkripsi.." readonly>
+                        </div>
+                        <br>
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <p>Digest Text (lat) 1</p>
-                                    <input type="text" name="digest_text_lat_1" id="digest_text_lat_1" class="form-control form-control-user" required placeholder="Digest Text Lat 1"></input>
-                                </div>
+                            <div class="col-md-12 text-center">
+                                <button type="button" class="btn btn-primary w-100" id="bandingkan-hashing">Bandingkan Hashing</button>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <p>Digest Text (lat) 2</p>
-                                    <input type="text" name="digest_text_lat_2" id="digest_text_lat_2" class="form-control form-control-user" required placeholder="Digest Text Lat 2"></input>
-                                </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <p id="hasil-banding-hash">Hasil Digest 1 dan Digest 2:</p>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <p>Digest Text (lang) 1</p>
-                                    <input type="text" name="digest_text_long_1" id="digest_text_long_1" class="form-control form-control-user" required placeholder="Digest Text Lang 1"></input>
-                                </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button class="btn btn-primary w-100" id="lanjutkan-dekrip" onclick="window.location.href='<?php echo site_url('Dataloc/dekripsi/' . $data->id); ?>'" disabled>
+                                    <i class="bx bx-plus"></i>Lanjutkan Dekripsi
+                                </button>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <p>Digest Text (lang) 2</p>
-                                    <input type="text" name="digest_text_long_2" id="digest_text_long_2" class="form-control form-control-user" required placeholder="Digest Text Lang 2"></input>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-primary w-100">Bandingkan</button>
-
-                            <div class="row mt-5">
-                                <div class="col-12 text-center">
-                                    <p>Digest Text 1 dan Digest Text 2:</p>
-                                </div>
-                            </div>
-
-                            <button class="btn btn-primary w-100" onclick="window.location.href='<?php echo site_url('Dataloc/dekripsi/' . $data->id)?>'">
-                                <i class="bx bx-plus"></i>Lanjutkan
-                            </button>
                         </div>
                     </form>
                 </div>
