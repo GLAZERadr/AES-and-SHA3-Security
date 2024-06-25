@@ -31,7 +31,7 @@
                             <input type="text" name="long" id="long" class="form-control form-control-user" required placeholder="Longitude terisi otomatis sesuai yang diklik" value="<?= isset($data->long) ? $data->long : ''; ?>" readonly>
                         </div>
                         <div class="form-group">
-                            <input type="password" name="key" id="key" class="form-control form-control-user" required placeholder="Masukkan Secret Key" value="<?= set_value('key'); ?>">
+                            <input type="password" name="key" id="key" class="form-control form-control-user" minlength = "16" maxlength = "16" required placeholder="Masukkan Secret Key" value="<?= set_value('key'); ?>">
                         </div>
                         <button class="btn btn-primary w-100" onclick="window.location.href='<?php echo site_url('Dataloc/hash/' . $data->id); ?>'">
                             <i class="bx bx-plus"></i> Enkripsi
