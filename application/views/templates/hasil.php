@@ -33,22 +33,22 @@
                         <td>Longitude (Enkripsi)</td>
                         <td>Latitude (Hash)</td>
                         <td>Longitude (Hash)</td>
-                        <td>Latitude (Asli)</td>
-                        <td>Longitude (Asli)</td>
+                        <td>Latitude (Dekrip)</td>
+                        <td>Longitude (Dekrip)</td>
                         <td>Tanggal</td>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($data_lokasi as $hasil) : ?>
-                        <?php if (!empty($hasil['lat_en']) || !empty($hasil['long_en']) || !empty($hasil['lat_hs']) || !empty($hasil['long_hs'])) : ?>
+                        <?php if (!empty($hasil['lat_en']) && !empty($hasil['long_en']) && !empty($hasil['lat_hs']) && !empty($hasil['long_hs'])) : ?>
                             <tr>
                                 <td><?php echo $hasil['id']; ?></td>
                                 <td><?php echo $hasil['lat_en']; ?></td>
                                 <td><?php echo $hasil['long_en']; ?></td>
                                 <td><?php echo $hasil['lat_hs']; ?></td>
                                 <td><?php echo $hasil['long_hs']; ?></td>
-                                <td><?php echo $hasil['lat']; ?></td>
-                                <td><?php echo $hasil['long']; ?></td>
+                                <td><?php echo $hasil['lat_dec']; ?></td>
+                                <td><?php echo $hasil['long_dec']; ?></td>
                                 <td><?php echo $hasil['tgl']; ?></td>
                             </tr>
                         <?php endif; ?>

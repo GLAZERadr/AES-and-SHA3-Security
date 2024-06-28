@@ -18,7 +18,6 @@
                     <span class="mr-2 d-none d-lg-inline text-gray-500 large">Pengamanan</span>
                 </a>
             </li>
-
         </nav>
         <!-- End of Topbar -->
 
@@ -27,7 +26,7 @@
             <div class="col-lg-12 mx-auto justify-content-center" data-aos="zoom-in">
                 <div class="login-container">
                     <h3 class="h1 mb-4 text-gray-800 text-center">Dekripsi Data Lokasi</h3><br>
-                    <form class="login-form" id="dekripsi-form">
+                    <form action="<?= site_url('Dataloc/generate_dekripsi/' . $data->id); ?>" method="post" class="login-form" id="dekripsi-form">
                         <div class="form-group">
                             <input type="text" name="lat_en_dec" id="lat_en_dec" class="form-control form-control-user" required placeholder="Latitude terisi otomatis sesuai yg di klik" value="<?= isset($data->lat_en) ? $data->lat_en : ''; ?>" readonly>
                         </div>
@@ -40,16 +39,16 @@
 
                         <div class="row">
                             <div class="col-md-12 text-center">
-                                <button type="button" class="btn btn-primary w-100" id="dekripsi-data">Dekripsi Data</button>
+                                <button type="submit" class="btn btn-primary w-100" id="dekripsi-data">Dekripsi Data</button>
                             </div>
                         </div>
 
                         <div class="row m-5">
                             <div class="col-md-12 text-center">
-                                <p id="latitude">Latitude:</p>
+                                <p id="latitude"><?= isset($lat_dec) ? 'Latitude: ' . $lat_dec : 'Latitude: '; ?></p>
                             </div>
                             <div class="col-md-12 text-center">
-                                <p id="longitude">Longitude:</p>
+                                <p id="longitude"><?= isset($long_dec) ? 'Longitude: ' . $long_dec : 'Longitude: '; ?></p>
                             </div>
                         </div>
                     </form>
@@ -57,3 +56,4 @@
             </div>
         </div>
     </div>
+</div>

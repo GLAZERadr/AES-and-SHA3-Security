@@ -173,7 +173,6 @@ class AES128Encryption
         0x9a000000,
         0x2f000000
     ];
-
     public function __construct($key) {
         $this->keyNumbers = strlen($key)/4;
 
@@ -181,7 +180,6 @@ class AES128Encryption
 
         if($this->keyNumbers != 4 && $this->keyNumbers != 6 && $this->keyNumbers != 8) {
             throw new Exception("Invalid key length");
-            // echo "invalid key length".$this->keyNumbers;
         } else {
             $this->keyExpansion($key);
         }
@@ -190,7 +188,6 @@ class AES128Encryption
     public function encrypt($plainText) {
         $temp = ''; 
         $cipherText = ''; 
-        $tempOutput = $this->initVector;
 
         $plainTextSize = strlen($plainText);
 
@@ -203,13 +200,11 @@ class AES128Encryption
                 }
             }
 
-            $tempOutput = $this->encryptBlock($temp);
-            $cipherText .= $tempOutput;
+            $cipherText .= $this->encryptBlock($temp);
         }
 
         return base64_encode($cipherText);
     }
-
 
     public function decrypt($encryptedText) {
         $block = []; 
@@ -246,18 +241,13 @@ class AES128Encryption
 
         for ($i = 1; $i < $this->roundNumbers; $i++) {
             $this->subBytes();
-
             $this->shiftRows();
-
             $this->mixColumns();
-
             $this->addRoundKey($i);
         }
 
         $this->subBytes();
-
         $this->shiftRows();
-
         $this->addRoundKey($i);
 
         for ($i = 0; $i < 4 * self::$blockNumbers; $i++) {
@@ -277,18 +267,13 @@ class AES128Encryption
 
         for ($i = $this->roundNumbers - 1; $i > 0; $i--) {
             $this->iShiftRows();
-
             $this->iSubBytes();
-
             $this->addRoundKey($i);
-
             $this->iMixColumns();
         }
 
         $this->iShiftRows();
-
         $this->iSubBytes();
-
         $this->addRoundKey($i);
 
         for ($i = 0; $i < 4 * self::$blockNumbers; $i++) {
@@ -315,13 +300,12 @@ class AES128Encryption
             $this->keyScheduler[$i] += ord($key[4 * $i+3]);
         }
 
-
         for (; $i < self::$blockNumbers*($this->roundNumbers+1); $i++) {
             $temp = $this->keyScheduler[$i-1];
 
-            if ($i%$this->keyNumbers == 0) {
+            if ($i % $this->keyNumbers == 0) {
                 $temp = $this->subWords($this->rotWord($temp)) ^ self::$roundConst[$i/$this->keyNumbers];
-            } elseif ($this->keyNumbers > 6 && $i%$this->keyNumbers == 4) {
+            } elseif ($this->keyNumbers > 6 && $i % $this->keyNumbers == 4) {
                 $temp = $this->subWords($temp);
             }
 
@@ -336,18 +320,15 @@ class AES128Encryption
 
         for ($i = 0; $i < 4; $i++) {
             for ($j = 0; $j < self::$blockNumbers; $j++) {
-
                 $temp = $this->keyScheduler[$round * self::$blockNumbers+$j] >> (3 - $i) * 8;
 
                 $temp %= 256;
 
                 if($temp < 0) {
                     $temp = 256 + $temp;
-
                     $this->status[$i][$j] ^= $temp;
                 } else {
                     $temp = $temp;
-
                     $this->status[$i][$j] ^= $temp;
                 }
             }
@@ -442,16 +423,11 @@ class AES128Encryption
 
         if($temp < 0) {
             $temp += 256;
-
             $keyScheduler += $temp;
-
             return $keyScheduler;
-
         } else {
             $temp += 0;
-
             $keyScheduler += $temp;
-
             return $keyScheduler;
         }
     }
@@ -483,6 +459,5 @@ class AES128Encryption
     public static function make32BitWord(&$keyScheduler)
     {
         $keyScheduler &= 0x00000000FFFFFFFF;
-    }
-        
+    } 
 }

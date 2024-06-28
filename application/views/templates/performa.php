@@ -68,6 +68,16 @@
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
+                <?php $rata_rata = $this->M_dataloc->hitungRataRataPerforma(); ?>
+                <thead>
+                    <tr>
+                        <td>Rata-rata</td>
+                        <td></td>
+                        <td><?php echo isset($rata_rata['rata_performa_waktu_tanpa_algo']) ? round($rata_rata['rata_performa_waktu_tanpa_algo'], 2) : ''; ?> s</td>
+                        <td><?php echo isset($rata_rata['rata_performa_waktu_dengan_algo']) ? round($rata_rata['rata_performa_waktu_dengan_algo'], 2) : ''; ?> s</td>
+                        <td><?php echo isset($rata_rata['rata_peningkatan_performaa']) ? round($rata_rata['rata_peningkatan_performaa'], 2) : ''; ?>s</td>
+                    </tr>
+                </thead>
             </table>
         </div>
 

@@ -48,6 +48,7 @@
 <!-- Custom scripts for all pages-->
 <script src="<?php echo base_url('files/'); ?>js/sb-admin-2.min.js"></script>
 
+<!-- User Defined AJAX -->
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     function setupHashingButton(buttonId, latInputId, longInputId, digestLatId, digestLongId, url, isDb) {
@@ -147,74 +148,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     document.getElementById('bandingkan-hashing').addEventListener('click', compareHashes);
-
-    function setupDekripsiButton(buttonId, latEncrypted, longEncrypted, secretKey, url) {
-        var button = document.getElementById(buttonId);
-        button.addEventListener('click', function (event) {
-            
-            var encryptedLat = document.getElementById(latEncrypted).value;
-            var encryptedLong = document.getElementById(longEncrypted).value;
-            var secretKey = document.getElementById(secretKey).value;
-
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-                    if (xhr.status === 200) {
-                        var response = JSON.parse(xhr.responseText);
-                        console.log('Response:', response);
-                        var decryptedLat = `Latitude: ${response.lat}`;
-                        var decryptedLong = `Longitude: ${response.long}`;
-
-                        document.getElementById('latitude').innerText = decryptedLat;
-                        document.getElementById('longitude').innerText = decryptedLong;
-                    } else {
-                        console.error('Error in the request:', xhr.statusText);
-                    }
-                }
-            };
-
-            xhr.open('POST', url, true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.send('lat_en_dec=' + encodeURIComponent(encryptedLat) + '&long_en_dec=' + encodeURIComponent(encryptedLong) + '&key_dec=' + encodeURIComponent(secretKey));
-        });
-    }
-
-    setupDekripsiButton(
-        'dekripsi-data', 
-        'lat_en_dec', 
-        'long_en_dec', 
-        'key_dec', 
-        '<?php echo base_url("Dataloc/generate_dekripsi"); ?>'
-    );
-
-    function countHashValue(event) {
-        event.preventDefault();
-        var latEncrypted = document.getElementById('lat-en').value;
-        var longEncrypted = document.getElementById('long-en').value;
-
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    var response = JSON.parse(xhr.responseText);
-                    if (response.hash_lat_integrity) {
-                        document.getElementById('lat-hs-2').value = response.hash_lat_integrity;
-                    }
-                    if (response.hash_long_integrity) {
-                        document.getElementById('long-hs-2').value = response.hash_long_integrity;
-                    }
-                } else {
-                    console.error('Error in the request:', xhr.statusText);
-                }
-            }
-        };
-
-        xhr.open('POST', '<?= base_url("Pengujian/generate_hash_integrity"); ?>', true);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.send('lat-en=' + encodeURIComponent(latEncrypted) + '&long-en=' + encodeURIComponent(longEncrypted));
-    }
-
-    document.getElementById('hitung-hash-user').addEventListener('click', countHashValue);
 });
 </script>
 

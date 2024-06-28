@@ -72,10 +72,13 @@ class Pengujian extends CI_Controller
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
         $this->load->view('templates/intro_integrity', $data);
+        $this->load->view('templates/footer');
     }
-
+    
     public function integrity($id = NULL)
     {
+        log_message('debug', 'Entered generate_hash_integrity method');
+
         if ($id === NULL) {
             redirect('Pengujian/intro_integrity'); 
         }
@@ -83,58 +86,100 @@ class Pengujian extends CI_Controller
         $this->load->model('m_dataloc');
         $data['data'] = $this->m_dataloc->get_data_by_id($id); // Get the data by id
         $data['data_lokasi'] = $this->m_dataloc->dataIntegrity(); // Get the integrity data
-    
-        $this->form_validation->set_rules('lat-hs-1', 'Lat Hs 1', 'required');
-        $this->form_validation->set_rules('long-hs-1', 'Long Hs 1', 'required');
-        $this->form_validation->set_rules('lat-hs-2', 'Lat Hs 2', 'required');
-        $this->form_validation->set_rules('long-hs-2', 'Long Hs 2', 'required');
-    
+
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar');
-            $this->load->view('templates/integrity', $data); // Pass both 'data' and 'data_lokasi' to the view
-        } else {
-            $lat_hs_1 = $this->input->post('lat-hs-1');
-            $long_hs_1 = $this->input->post('long-hs-1');
-            $lat_hs_2 = $this->input->post('lat-hs-2');
-            $long_hs_2 = $this->input->post('long-hs-2');
-    
-            if (($lat_hs_1 == $lat_hs_2) && ($long_hs_1 == $long_hs_2)) {
-                echo json_encode(['result' => 'Matched']);
-    
-                $data = array(
-                    'lat' => $data['data']->lat, 
-                    'lang' => $data['data']->long,
-                    'digest_lat_1' => $lat_hs_1,
-                    'digest_lang_1' => $long_hs_1,
-                    'digest_lat_2' => $lat_hs_2,
-                    'digest_lang_2' => $long_hs_2,
-                    'hasil_perbandingan' => 'Matched'
-                );
-    
-                $this->m_dataloc->insertIntegrity($data);
-    
-            } else {
-                echo json_encode(['result' => 'Not Matched']);
-    
-                $data = array(
-                    'lat' => $data['data']->lat, 
-                    'lang' => $data['data']->long,
-                    'digest_lat_1' => $lat_hs_1,
-                    'digest_lang_1' => $long_hs_1,
-                    'digest_lat_2' => $lat_hs_2,
-                    'digest_lang_2' => $long_hs_2,
-                    'hasil_perbandingan' => 'Not Matched'
-                );
-    
-                $this->m_dataloc->insertIntegrity($data);
-            }
-    
-            redirect('Pengujian/integrity/' . $id);
+            $this->load->view('templates/integrity', $data);
+            $this->load->view('templates/footer');
         }
     }
+
+    public function integrity_check($id=NULL)
+    {
+        log_message('debug', 'Entered integrity_check method');
     
-    public function generate_hash_integrity()
+        $lat_hs_1 = $this->input->post('lat-hs-1');
+        $long_hs_1 = $this->input->post('long-hs-1');
+        $lat_hs_2 = $this->input->post('lat-hs-2');
+        $long_hs_2 = $this->input->post('long-hs-2');
+    
+        $this->load->model('m_dataloc');
+    
+        log_message('debug', 'Data received: lat-hs-1=' . $lat_hs_1 . ', long-hs-1=' . $long_hs_1 . ', lat-hs-2=' . $lat_hs_2 . ', long-hs-2=' . $long_hs_2);
+    
+        // Get data by id
+        $dataloc_by_id = $this->m_dataloc->get_data_by_id($id);
+        $data['data'] = $dataloc_by_id;
+    
+        if (!$data['data']) {
+            // Handle if data is not found
+            log_message('error', 'Data not found for id: ' . $id);
+            // You may want to redirect or show an error message here
+        }
+    
+        // Get integrity data
+        $data['data_lokasi'] = $this->m_dataloc->dataIntegrity();
+    
+        if (($lat_hs_1 == $lat_hs_2) && ($long_hs_1 == $long_hs_2)) {
+            // echo json_encode(['result' => 'Matched']);
+    
+            // Prepare data array for view
+            $data['hasil_perbandingan'] = 'Sama';
+            $data['digest_lat_1'] = $lat_hs_1;
+            $data['digest_lang_1'] = $long_hs_1;
+            $data['digest_lat_2'] = $lat_hs_2;
+            $data['digest_lang_2'] = $long_hs_2;
+
+            $insert = array(
+                // 'id_integrity' => $id,
+                'lat' => $dataloc_by_id->lat,
+                'lang' => $dataloc_by_id->long,
+                'digest_lat_1' => $lat_hs_1,
+                'digest_lang_1' => $long_hs_1,
+                'digest_lat_2' => $lat_hs_2,
+                'digest_lang_2' => $long_hs_2,
+                'hasil_perbandingan' => 'Sama'
+            );
+
+            $this->m_dataloc->tambahDataIntegrity($insert);
+
+            redirect("Pengujian/integrity/" . $id);
+        } else {
+            // echo json_encode(['result' => 'Not Matched']);
+    
+            // Prepare data array for view
+            $data['hasil_perbandingan'] = 'Tidak Sama';
+            $data['digest_lat_1'] = $lat_hs_1;
+            $data['digest_lang_1'] = $long_hs_1;
+            $data['digest_lat_2'] = $lat_hs_2;
+            $data['digest_lang_2'] = $long_hs_2;
+
+            $insert = array(
+                // 'id_integrity' => $id,
+                'lat' => $dataloc_by_id->lat,
+                'lang' => $dataloc_by_id->long,
+                'digest_lat_1' => $lat_hs_1,
+                'digest_lang_1' => $long_hs_1,
+                'digest_lat_2' => $lat_hs_2,
+                'digest_lang_2' => $long_hs_2,
+                'hasil_perbandingan' => 'Tidak Sama'
+            );
+
+            $this->m_dataloc->tambahDataIntegrity($insert);
+
+            redirect("Pengujian/integrity/" . $id);
+        }
+    
+        // Load view with prepared data
+        $this->load->view('templates/header');
+        $this->load->view('templates/sidebar');
+        $this->load->view('templates/integrity', $data);
+        $this->load->view('templates/footer');
+    }
+    
+    
+    public function generate_hash_integrity($id=NULL)
     {
         log_message('debug', 'Entered generate_hash_integrity method');
         
@@ -143,6 +188,8 @@ class Pengujian extends CI_Controller
     
         log_message('debug', 'Data received: lat-en=' . $lat_en . ', long-en=' . $long_en);
     
+        $this->load->model('m_dataloc');
+
         if ($lat_en && $long_en) {
             try {
                 $sha3 = new SHA3KECCAK();
@@ -151,10 +198,16 @@ class Pengujian extends CI_Controller
     
                 log_message('debug', 'Hashing success: hash_lat_integrity=' . $hash_lat_integrity . ', hash_long_integrity=' . $hash_long_integrity);
     
-                echo json_encode([
-                    'hash_lat_integrity' => $hash_lat_integrity,
-                    'hash_long_integrity' => $hash_long_integrity
-                ]);
+                // Load view with the hash values
+                $data['hash_lat_integrity'] = $hash_lat_integrity;
+                $data['hash_long_integrity'] = $hash_long_integrity;
+                $data['data'] = $this->m_dataloc->get_data_by_id($id);
+                $data['data_lokasi'] = $this->m_dataloc->dataIntegrity(); // Get the integrity data
+                $this->load->view('templates/header');
+                $this->load->view('templates/sidebar');
+                $this->load->view('templates/integrity', $data);
+                $this->load->view('templates/footer');
+    
             } catch (Exception $e) {
                 log_message('error', 'Exception: ' . $e->getMessage());
                 echo json_encode(['error' => 'Hashing failed: ' . $e->getMessage()]);
@@ -163,7 +216,7 @@ class Pengujian extends CI_Controller
             log_message('error', 'Invalid input: lat-en or long-en is missing');
             echo json_encode(['error' => 'Invalid input']);
         }
-    }    
+    }
 
     public function performa()
     {

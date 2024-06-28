@@ -218,22 +218,43 @@ class Dataloc extends CI_Controller
         $this->load->view('templates/dekripsi', $data);
     }
 
-    public function generate_dekripsi()
+    public function generate_dekripsi($id=NULL)
     {
+        $this->load->model('m_dataloc');
+    
         $lat_en = $this->input->post('lat_en_dec');
         $long_en = $this->input->post('long_en_dec');
         $secret_key = $this->input->post('key_dec');
-
-        $aes = new AES128Encryption($secret_key);
-        $lat = $aes->decrypt($lat_en);
-        $long = $aes->decrypt($long_en);
-
+    
         log_message('debug', 'Data received: lat=' . $lat_en . ', long=' . $long_en . ', secret=' . $secret_key);
+    
+        $data['data'] = $this->m_dataloc->get_data_by_id($id);
+    
+        if ($lat_en && $long_en && $secret_key) {
+            $aes = new AES128Encryption($secret_key);
+            $lat = $aes->decrypt($lat_en);
+            $long = $aes->decrypt($long_en);
+    
+            log_message('debug', 'Decrypt success: lat=' . $lat . ', long=' . $long);
+    
+            $data['lat_dec'] = $lat;
+            $data['long_dec'] = $long;
 
-        echo json_encode([
-            'lat' => $lat,
-            'long' => $long,
-            'key' => $secret_key
-        ]);
+            $insert = array(
+                'lat_dec' => $lat,
+                'long_dec' => $long
+            );
+
+            $this->m_dataloc->updateData($id, $insert);
+        } else {
+            log_message('error', 'Invalid input: lat-en or long-en is missing');
+            echo json_encode(['error' => 'Invalid input']);
+            return;
+        }
+    
+        $this->load->view('templates/header');
+        $this->load->view('templates/sidebar');
+        $this->load->view('templates/dekripsi', $data);
     }
+    
 }

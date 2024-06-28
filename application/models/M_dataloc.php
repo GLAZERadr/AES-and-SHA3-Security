@@ -42,6 +42,14 @@ class M_dataloc extends CI_Model
         return $query->row_array();
     }
 
+    public function hitungRataRataPerforma() {
+        $this->db->select_avg('waktu_tanpa_algo', 'rata_performa_waktu_tanpa_algo');
+        $this->db->select_avg('waktu_dengan_algo', 'rata_performa_waktu_dengan_algo');
+        $this->db->select_avg('peningkatan', 'rata_peningkatan_performaa');
+        $query = $this->db->get('performa_sistem');
+        return $query->row_array();
+    }
+
     public function dataPerforma()
     {
         return $this->db->get('performa_sistem')->result_array();
@@ -60,5 +68,16 @@ class M_dataloc extends CI_Model
     public function tambahDataIntegrity($data)
     {
         $this->db->insert('integrity', $data);
+    }
+    
+    public function check_location_values($id, $lat_en, $long_en, $lat_hs, $long_hs) {
+        $this->db->where('id', $id);
+        $this->db->where('lat_en', $lat_en);
+        $this->db->where('long_en', $long_en);
+        $this->db->where('lat_hs', $lat_hs);
+        $this->db->where('long_hs', $long_hs);
+        $query = $this->db->get('data_lokasi');
+
+        return $query->num_rows() > 0;
     }
 }
