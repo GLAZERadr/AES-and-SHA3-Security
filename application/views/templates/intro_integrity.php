@@ -34,10 +34,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($data_lokasi as $dataloc) : ?>
+                    <?php 
+                    $no=1;
+                    foreach ($data_lokasi as $dataloc) : ?>
                         <?php if (!empty($dataloc['lat_en']) && !empty($dataloc['long_en']) && !empty($dataloc['lat_hs']) && !empty($dataloc['long_hs'])) : ?>
                             <tr>
-                                <td><?php echo $dataloc['id']; ?></td>
+                                <td><?php echo $no++; ?></td>
                                 <td><?php echo $dataloc['lat_en']; ?></td>
                                 <td><?php echo $dataloc['long_en']; ?></td>
                                 <td><?php echo $dataloc['tgl']; ?></td>

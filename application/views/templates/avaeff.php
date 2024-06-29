@@ -60,9 +60,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($data_avaeff as $hasil) : ?>
+                    <?php 
+                    $no=1;
+                    foreach ($data_avaeff as $hasil) : ?>
                         <tr>
-                            <td><?php echo $hasil['id_avalanche']; ?>.</td>
+                            <td><?php echo $no++; ?>.</td>
                             <td><?php echo $hasil['input_koordinat']; ?></td>
                             <td><?php echo $hasil['ciphertext_input']; ?></td>
                             <td><?php echo $hasil['input_modifikasi']; ?></td>

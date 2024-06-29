@@ -58,9 +58,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($data_lokasi as $hasil) : ?>
+                    <?php 
+                    $no=1;
+                    foreach ($data_lokasi as $hasil) : ?>
                         <tr>
-                            <td><?php echo $hasil['id_performa']; ?>.</td>
+                            <td><?php echo $no++; ?>.</td>
                             <td><?php echo $hasil['banyak_data']; ?></td>
                             <td><?php echo $hasil['waktu_tanpa_algo']; ?> s</td>
                             <td><?php echo $hasil['waktu_dengan_algo']; ?> s</td>

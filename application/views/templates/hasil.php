@@ -39,10 +39,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($data_lokasi as $hasil) : ?>
+                    <?php 
+                    $no=1;
+                    foreach ($data_lokasi as $hasil) : ?>
                         <?php if (!empty($hasil['lat_en']) && !empty($hasil['long_en']) && !empty($hasil['lat_hs']) && !empty($hasil['long_hs'])) : ?>
                             <tr>
-                                <td><?php echo $hasil['id']; ?></td>
+                                <td><?php echo $no++; ?></td>
                                 <td><?php echo $hasil['lat_en']; ?></td>
                                 <td><?php echo $hasil['long_en']; ?></td>
                                 <td><?php echo $hasil['lat_hs']; ?></td>

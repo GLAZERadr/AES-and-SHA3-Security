@@ -71,9 +71,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($data_lokasi as $hasil) : ?>
+                    <?php 
+                    $no=1;
+                    foreach ($data_lokasi as $hasil) : ?>
                         <tr>
-                            <td><?php echo $hasil['id_integrity']; ?></td>
+                            <td><?php echo $no++; ?></td>
                             <td><?php echo $hasil['lat']; ?></td>
                             <td><?php echo $hasil['lang']; ?></td>
                             <td><?php echo $hasil['digest_lat_1']; ?></td>

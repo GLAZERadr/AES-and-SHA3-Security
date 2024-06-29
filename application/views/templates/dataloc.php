@@ -42,6 +42,7 @@
                 </thead>
                 <tbody>
                     <?php 
+                    $no = 1;
                     foreach ($data_lokasi as $dataloc) {
                         $id = $dataloc['id'];
                         $lat_en = $dataloc['lat_en'];
@@ -56,7 +57,7 @@
                         }
 
                         echo "<tr>";
-                        echo "<td>" . $dataloc['id'] . "</td>";
+                        echo "<td>" . $no++ . "</td>";
                         echo "<td>" . $dataloc['lat'] . "</td>";
                         echo "<td>" . $dataloc['long'] . "</td>";
                         echo "<td>" . $dataloc['tgl']. "</td>";
