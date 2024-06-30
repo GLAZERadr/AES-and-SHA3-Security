@@ -34,7 +34,7 @@
                         <div class="form-group">
                             <input type="text" name="long" id="long" class="form-control form-control-user" required placeholder="Masukkan Longitude .." value="<?= set_value('long'); ?>"></input>
                         </div>
-                        <button type="submit">Submit</button>
+                        <button type="submit" class="btn w-100" style="background-color: #282b75; border-color: #282b75; color: #ffff;" onmouseover="this.style.backgroundColor='#1d161e'; this.style.color='#ffffff';" onmouseout="this.style.backgroundColor='#282b75'; this.style.color='#ffff';">Submit</button>
                     </form>
                 </div>
             </div>

@@ -62,6 +62,7 @@ class Dataloc extends CI_Controller
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar');
             $this->load->view('templates/enkripsi', $data);
+            $this->load->view('templates/footer');
         } else {
             $secret_key = $this->input->post('key');
             $aes = new AES128Encryption($secret_key);
@@ -216,6 +217,7 @@ class Dataloc extends CI_Controller
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
         $this->load->view('templates/dekripsi', $data);
+        $this->load->view('templates/footer');
     }
 
     public function generate_dekripsi($id=NULL)
@@ -255,6 +257,7 @@ class Dataloc extends CI_Controller
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
         $this->load->view('templates/dekripsi', $data);
+        $this->load->view('templates/footer');
     }
     
 }

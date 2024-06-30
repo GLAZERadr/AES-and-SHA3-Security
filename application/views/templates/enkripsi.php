@@ -33,7 +33,7 @@
                         <div class="form-group">
                             <input type="password" name="key" id="key" class="form-control form-control-user" minlength = "16" maxlength = "16" required placeholder="Masukkan Secret Key" value="<?= set_value('key'); ?>">
                         </div>
-                        <button class="btn btn-primary w-100" onclick="window.location.href='<?php echo site_url('Dataloc/hash/' . $data->id); ?>'">
+                        <button class="btn w-100" style="background-color: #282b75; border-color: #282b75; color: #ffff;" onmouseover="this.style.backgroundColor='#1d161e'; this.style.color='#ffffff';" onmouseout="this.style.backgroundColor='#282b75'; this.style.color='#ffff';"onclick="window.location.href='<?php echo site_url('Dataloc/hash/' . $data->id); ?>'">
                             <i class="bx bx-plus"></i> Enkripsi
                         </button>
                     </form>
@@ -41,4 +41,3 @@
             </div>
         </div>
     </div>
-</div>

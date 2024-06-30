@@ -56,10 +56,10 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6 text-center">
-                                <button type="button" class="btn btn-primary w-100" id="hasil-enkripsi">Hashing</button>
+                                <button type="button" class="btn w-100" style="background-color: #282b75; border-color: #282b75; color: #ffff;" onmouseover="this.style.backgroundColor='#1d161e'; this.style.color='#ffffff';" onmouseout="this.style.backgroundColor='#282b75'; this.style.color='#ffff';" id="hasil-enkripsi">Hashing</button>
                             </div>
                             <div class="col-md-6 text-center">
-                                <button type="button" class="btn btn-primary w-100" id="hasil-enkripsi-db">Hashing DB</button>
+                                <button type="button" class="btn w-100" style="background-color: #282b75; border-color: #282b75; color: #ffff;" onmouseover="this.style.backgroundColor='#1d161e'; this.style.color='#ffffff';" onmouseout="this.style.backgroundColor='#282b75'; this.style.color='#ffff';" id="hasil-enkripsi-db">Hashing DB</button>
                             </div>
                         </div>
                         <br>
@@ -82,7 +82,7 @@
                         <br>
                         <div class="row">
                             <div class="col-md-12 text-center">
-                                <button type="button" class="btn btn-primary w-100" id="bandingkan-hashing">Bandingkan Hashing</button>
+                                <button type="button" class="btn w-100" style="background-color: #282b75; border-color: #282b75; color: #ffff;" onmouseover="this.style.backgroundColor='#1d161e'; this.style.color='#ffffff';" onmouseout="this.style.backgroundColor='#282b75'; this.style.color='#ffff';" id="bandingkan-hashing">Bandingkan Hashing</button>
                             </div>
                         </div>
                         <br>
@@ -94,7 +94,7 @@
                         <br>
                         <div class="row">
                             <div class="col-md-12 text-center">
-                                <button class="btn btn-primary w-100" id="lanjutkan-dekrip" onclick="window.location.href='<?php echo site_url('Dataloc/dekripsi/' . $data->id); ?>'" disabled>
+                                <button class="btn w-100" style="background-color: #282b75; border-color: #282b75; color: #ffff;" onmouseover="this.style.backgroundColor='#1d161e'; this.style.color='#ffffff';" onmouseout="this.style.backgroundColor='#282b75'; this.style.color='#ffff';" id="lanjutkan-dekrip" onclick="window.location.href='<?php echo site_url('Dataloc/dekripsi/' . $data->id); ?>'" disabled>
                                     <i class="bx bx-plus"></i>Lanjutkan Dekripsi
                                 </button>
                             </div>

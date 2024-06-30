@@ -15,7 +15,7 @@
             <!-- Title -->
             <li class="nav-item dropdown no-arrow">
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="mr-2 d-none d-lg-inline text-gray-500 large">Beranda</span>
+                    <span style="color: #ffffff; font-size: 50px;">Beranda</span>
                 </a>
             </li>
 

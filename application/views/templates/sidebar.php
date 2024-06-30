@@ -1,11 +1,13 @@
 <!-- Sidebar -->
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar"  style="background: linear-gradient(180deg, #0e1625, #49299a);">
+    <!-- Image - Logo -->
+    <img src="<?php echo base_url('files/img/logo.png'); ?>" alt="Logo" class="img-fluid my-3 mx-auto d-block" style="max-width: 150px;">
 
     <!-- Sidebar - Brand -->
     <br><a class="sidebar-brand d-flex align-items-center justify-content-center" href=<?php echo base_url('Beranda'); ?>>
         <div class="sidebar-brand-icon rotate-n-15">
         </div>
-        <div class="sidebar-brand-text mx-3">Sistem Pengamanan Data Lokasi</div>
+        <div class="sidebar-brand-text mx-3">Sistem Pengamanan <span style="color: #45edf2;"> Data Lokasi</span></div>
     </a><br>
 
     <!-- Divider -->

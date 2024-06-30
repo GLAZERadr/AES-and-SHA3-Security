@@ -39,7 +39,7 @@
 
                         <div class="row">
                             <div class="col-md-12 text-center">
-                                <button type="submit" class="btn btn-primary w-100" id="dekripsi-data">Dekripsi Data</button>
+                                <button type="submit" class="btn w-100" style="background-color: #282b75; border-color: #282b75; color: #ffff;" onmouseover="this.style.backgroundColor='#1d161e'; this.style.color='#ffffff';" onmouseout="this.style.backgroundColor='#282b75'; this.style.color='#ffff';" id="dekripsi-data">Dekripsi Data</button>
                             </div>
                         </div>
 
@@ -56,4 +56,3 @@
             </div>
         </div>
     </div>
-</div>
